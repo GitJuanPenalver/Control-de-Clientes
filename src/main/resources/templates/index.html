@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> 
+    <head>
+        <title>Inicio</title>
+        <meta charset="UTF-8">     
+    </head>
+    <body>
+        <header th:replace="layout/layout :: header" ></header>
+        <h1>Inicio</h1>
+        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/agregar}">Crear persona</a>
+        <div th:if="${personas != null and !personas.empty}">
+            <table border="1">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Editar</th>
+                    <th>Elimina</th>
+                </tr>
+
+                <tr th:each="persona: ${personas}">
+                    <td><span th:text="${persona.nombre}"></span></td>
+                    <td><span th:text="${persona.apellido}"></span></td>
+                    <td><span th:text="${persona.email}"></span></td>
+                    <td><span th:text="${persona.telefono}"></span></td>
+                    <td><a th:href="@{/editar/} + ${persona.idPersona}" >Editar</a></td>
+                    <td><a th:href="@{/eliminar/} + ${persona.idPersona}" >Eliminar</a></td>
+
+                </tr>
+            </table>
+        </div>
+        <div th:if="${personas == null or personas.empty}">
+            La lista de personas está vacia
+        </div>
+        <footer th:replace="layout/layout :: footer" ></footer>
+    </body>
+</html>
